@@ -1,0 +1,133 @@
+<{{ section.settings.tags }}
+  style="
+    background-color: {{ section.settings.background_color }};
+    min-height: {{ section.settings.min_height }}px;
+    padding: {{ section.settings.padding }};
+  "
+  {{ block.shopify_attributes }}
+  id: "{{ section.id }}"
+>
+  <div style="{% if section.settings.width == 'boxed' and section.settings.custom_width %}
+      width: {{ section.settings.custom_width }}{{ section.settings.custom_width_unit }};margin:0 auto
+    {% endif %}
+  ">
+  <div style="display: flex; flex-wrap: wrap; width: 100%;">
+    {% for block in section.blocks %}
+      {% render block %}
+    {% endfor %}
+  </div>
+  </div>
+</{{ section.settings.tags }}>
+
+
+{% schema %}
+
+{
+  "name": "Section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "tags",
+      "label": "Tag",
+      "options": [
+        {
+          "value": "section",
+          "label": "Section"
+        },
+        {
+          "value": "div",
+          "label": "Div"
+        }
+      ],
+      "default": "section"
+    },
+    {
+        "type":"select",
+        "id":"column",
+        "label":"Column",
+        "options": [
+            {"value": "1", "label": "1"},
+            {"value": "2", "label": "2"},
+            {"value": "3", "label": "3"},
+            {"value": "4", "label": "4"}
+        ],
+        "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "full",
+          "label": "Full Width"
+        },
+        {
+          "value": "boxed",
+          "label": "Boxed"
+        }
+      ],
+      "default": "full"
+    },
+    {
+      "type": "number",
+      "id": "custom_width",
+      "label": "Custom Width",
+      "default": 1200,
+      "visible_if": "{{ section.settings.width == 'boxed' }}"
+    },
+    {
+      "type": "select",
+      "id": "custom_width_unit",
+      "label": "Width Unit",
+      "default": "px",
+      "options": [
+        {
+          "value": "px",
+          "label": "Pixels (px)"
+        },
+        {
+          "value": "em",
+          "label": "EM (em)"
+        },
+        {
+          "value": "rem",
+          "label": "REM (rem)"
+        }
+      ],
+      "visible_if": "{{ section.settings.width == 'boxed' }}"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+        "type":"number",
+        "id":"min_height",
+        "label": "Min Height",
+        "default":0
+        
+    },
+    {
+      "type": "text",
+      "id": "padding",
+      "label": "Padding",
+      "info": "Example: 10px 20px 10px 20px",
+      "default": "0px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Section"
+    }
+  ]
+}
+
+{% endschema %}

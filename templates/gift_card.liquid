@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift card</title>
+</head>
+<body>
+    <h1>Gift Card</h1>
+
+    <img src="{{ gift_card.image | image_url: width: 1024 }}" alt="{{ gift_card.title }}">
+    <p>{{ gift_card.note }}</p>
+    <p>Gift Card Number: {{ gift_card.code }}</p>
+    <p>Gift Card Value: {{ gift_card.value }}</p>
+    
+</body>
+</html>

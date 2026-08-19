@@ -1,0 +1,61 @@
+<div class="logo">
+  <a href="{{ shop.url }}">
+    {% if block.settings.show_custom_logo and block.settings.logo != blank %}
+
+      <img
+        src="{{ block.settings.logo | image_url: width: block.settings.width }}"
+        alt="{{ shop.name }}"
+        width="{{ block.settings.width }}"
+        height="auto"
+        style="width: {{ block.settings.width }}px; height: auto;">
+
+    {% elsif settings.logo != blank %}
+
+      <img
+        src="{{ settings.logo | image_url: width: block.settings.width }}"
+        alt="{{ shop.name }}"
+        width="{{ block.settings.width }}"
+        height="auto"
+        style="width: {{ block.settings.width }}px; height: auto;">
+
+    {% else %}
+
+      <span>{{ shop.name }}</span>
+
+    {% endif %}
+  </a>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_custom_logo",
+        "label": "Show Custom Logo",
+        "default": false
+      }, {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo",
+        "visible_if": "{{ block.settings.show_custom_logo }}"
+      }, {
+        "type": "range",
+        "id": "width",
+        "label": "Width",
+        "unit": "px",
+        "min": 10,
+        "max": 500,
+        "step": 10,
+        "default": 100
+      }
+    ],
+    "presets": [
+      {
+        "name": "Logo"
+      }
+    ]
+  }
+{% endschema %}

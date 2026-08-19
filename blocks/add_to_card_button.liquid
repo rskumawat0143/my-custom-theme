@@ -1,0 +1,66 @@
+<div class="add-to-card-button" {{block.shopify_attributes}}>
+    {% form 'product', product %}   
+        <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+        <input type="hidden" name="action" value="/cart/add">
+        <div class="quantity">
+            Quantity:- 
+            <button type="button" class="decrease">-</button>
+            <input type="number" name="quantity" value="1">
+            <button type="button" class="increase">+</button>
+        </div>
+        <button type="submit" name="add">{{ block.settings.text }}</button>
+    {% endform %}
+</div>
+
+{% style %}
+    .add-to-card-button button{
+        background-color: {{block.settings.background_color}};
+        color: {{block.settings.text_color}};
+        font-size: {{block.settings.font_size}}px;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+{% endstyle %}
+
+{% schema %}
+{
+    "name": "Add To Card Button",
+    "settings": [
+        {
+            "type":"text",
+            "id":"text",
+            "label":"Text",
+            "default":"Add To Card"
+        },
+        {
+            "type": "color",
+            "id":"text_color",
+            "label":"Text Color",
+            "default":"#ffffff"
+        },
+        {
+            "type": "color",
+            "id":"background_color",
+            "label":"Background Color",
+            "default":"#000"
+        },
+        {
+            "type": "range",
+            "id":"font_size",
+            "label":"Font Size",
+            "default":14,
+            "min":12,
+            "max":50,
+            "step":1,
+            "unit":"px"
+        }
+        
+        ],
+        "presets": [
+            {
+                "name": "Add To Card Button"
+            }
+        ]
+}
+{% endschema %}

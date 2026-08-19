@@ -1,0 +1,350 @@
+<div id="cart-drawer" class="cart-drawer">
+  <div class="cart-drawer-overlay" onclick="closeCartDrawer()"></div>
+  <div class="cart-drawer-content">
+    <div class="cart-drawer-header">
+      <h2>Your Cart</h2>
+      <button class="cart-drawer-close" onclick="closeCartDrawer()">&times;</button>
+    </div>
+    
+    <div id="cart-drawer-items" class="cart-drawer-items">
+      <!-- Dynamically filled by JS -->
+    </div>
+    
+    <div class="cart-drawer-footer">
+      <div class="cart-drawer-subtotal">
+        <span>Subtotal</span>
+        <strong id="cart-drawer-subtotal-price">{{ cart.total_price | money }}</strong>
+      </div>
+      <p class="cart-drawer-taxes">Taxes and shipping calculated at checkout.</p>
+      <form action="/cart" method="post">
+        <button type="submit" name="checkout" class="cart-drawer-checkout">Checkout</button>
+      </form>
+      <a href="/cart" class="cart-drawer-view-cart">View Cart Page</a>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Cart Drawer Container */
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  visibility: hidden;
+  transition: visibility 0.3s ease;
+}
+
+.cart-drawer.active {
+  visibility: visible;
+}
+
+/* Background Overlay */
+.cart-drawer-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cart-drawer.active .cart-drawer-overlay {
+  opacity: 1;
+}
+
+/* Drawer Content panel */
+.cart-drawer-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 400px;
+  max-width: 100%;
+  height: 100%;
+  background: #fff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cart-drawer.active .cart-drawer-content {
+  transform: translateX(0);
+}
+
+/* Header */
+.cart-drawer-header {
+  padding: 20px;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-drawer-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.cart-drawer-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  color: #333;
+}
+
+/* Items List */
+.cart-drawer-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cart-drawer-item {
+  display: flex;
+  gap: 15px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.cart-drawer-item-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+.cart-drawer-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cart-drawer-item-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.cart-drawer-item-title a {
+  color: #222;
+  text-decoration: none;
+}
+
+.cart-drawer-item-variant {
+  font-size: 12px;
+  color: #666;
+}
+
+.cart-drawer-item-price {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.cart-drawer-item-qty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.cart-drawer-item-qty input {
+  width: 50px;
+  padding: 4px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.cart-drawer-item-remove {
+  font-size: 12px;
+  color: #c00;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Footer */
+.cart-drawer-footer {
+  padding: 20px;
+  border-top: 1px solid #e5e5e5;
+  background: #fcfcfc;
+}
+
+.cart-drawer-subtotal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.cart-drawer-taxes {
+  font-size: 13px;
+  color: #666;
+  margin: 0 0 15px;
+}
+
+.cart-drawer-checkout {
+  width: 100%;
+  padding: 14px;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.cart-drawer-checkout:hover {
+  background: #333;
+}
+
+.cart-drawer-view-cart {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #555;
+  text-decoration: underline;
+}
+
+.cart-drawer-empty {
+  text-align: center;
+  padding: 40px 0;
+  color: #777;
+}
+</style>
+
+<script>
+// Open the cart drawer
+function openCartDrawer() {
+  document.getElementById('cart-drawer').classList.add('active');
+  updateCartDrawer();
+}
+
+// Close the cart drawer
+function closeCartDrawer() {
+  document.getElementById('cart-drawer').classList.remove('active');
+}
+
+// Format money dynamically
+function formatMoney(cents) {
+  // Simple format, can be updated depending on Shopify currency settings
+  return 'Rs. ' + (cents / 100).toFixed(2);
+}
+
+// Fetch and update cart drawer content
+function updateCartDrawer() {
+  fetch('/cart.js')
+    .then(response => response.json())
+    .then(cart => {
+      // Update cart count badge in header
+      const cartBadges = document.querySelectorAll('.cart-count');
+      cartBadges.forEach(badge => {
+        badge.textContent = cart.item_count;
+        if (cart.item_count === 0) {
+          badge.style.display = 'none';
+        } else {
+          badge.style.display = 'flex';
+        }
+      });
+
+      // Update Subtotal
+      document.getElementById('cart-drawer-subtotal-price').textContent = formatMoney(cart.total_price);
+
+      // Render Items
+      const itemsContainer = document.getElementById('cart-drawer-items');
+      if (cart.item_count === 0) {
+        itemsContainer.innerHTML = '<div class="cart-drawer-empty"><p>Your cart is empty.</p></div>';
+        return;
+      }
+
+      let itemsHtml = '';
+      cart.items.forEach(item => {
+        const variantText = item.variant_title ? `<div class="cart-drawer-item-variant">${item.variant_title}</div>` : '';
+        const itemImage = item.image ? item.image : 'https://cdn.shopify.com/s/images/themes/product-dummy.gif';
+        
+        itemsHtml += `
+          <div class="cart-drawer-item" data-id="${item.key}">
+            <img class="cart-drawer-item-img" src="${itemImage}&width=160" alt="${item.product_title}">
+            <div class="cart-drawer-item-info">
+              <h3 class="cart-drawer-item-title"><a href="${item.url}">${item.product_title}</a></h3>
+              ${variantText}
+              <div class="cart-drawer-item-price">${formatMoney(item.line_price)}</div>
+              <div class="cart-drawer-item-qty">
+                <input type="number" value="${item.quantity}" min="0" onchange="changeCartDrawerQty('${item.key}', this.value)">
+                <span class="cart-drawer-item-remove" onclick="changeCartDrawerQty('${item.key}', 0)">Remove</span>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      itemsContainer.innerHTML = itemsHtml;
+    });
+}
+
+// Change quantity in drawer
+function changeCartDrawerQty(key, quantity) {
+  fetch('/cart/change.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id: key,
+      quantity: parseInt(quantity)
+    })
+  })
+  .then(response => response.json())
+  .then(cart => {
+    updateCartDrawer();
+  });
+}
+
+// Intercept Add To Cart form submissions to open drawer automatically
+document.addEventListener('submit', function(e) {
+  const form = e.target;
+  if (form.action && form.action.includes('/cart/add')) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    
+    fetch('/cart/add.js', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(item => {
+      openCartDrawer();
+    })
+    .catch(error => {
+      console.error('Error adding to cart:', error);
+    });
+  }
+});
+
+// Intercept Cart Icon click in header to open drawer
+document.addEventListener('DOMContentLoaded', () => {
+  const cartIcon = document.querySelector('.cart-icon');
+  if (cartIcon) {
+    cartIcon.addEventListener('click', function(e) {
+      e.preventDefault();
+      openCartDrawer();
+    });
+  }
+});
+</script>

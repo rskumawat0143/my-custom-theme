@@ -1,0 +1,51 @@
+<div class="product-card">
+
+  <a
+    href="{{ product.url }}"
+    class="product-image"
+  >
+
+    {% if product.featured_image %}
+
+      <img
+        src="{{ product.featured_image | image_url: width: 600 }}"
+        alt="{{ product.featured_image.alt | default: product.title | escape }}"
+        loading="lazy"
+      >
+
+    {% endif %}
+
+  </a>
+
+  <div class="product-info">
+
+    <h2 class="product-title">
+      <a href="{{ product.url }}">
+        {{ product.title }}
+      </a>
+    </h2>
+
+    <div class="product-price">
+
+      {% if product.compare_at_price > product.price %}
+
+        <span>
+          {{ product.price | money }}
+        </span>
+
+        <span class="compare-price">
+          {{ product.compare_at_price | money }}
+        </span>
+
+      {% else %}
+
+        {{ product.price | money }}
+
+      {% endif %}
+
+    </div>
+
+  </div>
+
+</div>
+<!-- card-product trigger sync -->

@@ -1,0 +1,77 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+    "name": "Header Group",
+    "type": "header",
+    "sections": {
+        "header": {
+            "type": "header",
+            "blocks": {
+                "column_hxwW3j": {
+                    "type": "column",
+                    "name": "Column",
+                    "settings": {
+                        "width": 20
+                    },
+                    "blocks": {
+                        "logo_jCxAgC": {
+                            "type": "logo",
+                            "name": "Logo",
+                            "settings": {
+                                "show_custom_logo": false,
+                                "width": 100
+                            },
+                            "blocks": {}
+                        }
+                    },
+                    "block_order": [
+                        "logo_jCxAgC"
+                    ]
+                },
+                "column_wbJk7H": {
+                    "type": "column",
+                    "name": "Column",
+                    "settings": {
+                        "width": 80
+                    },
+                    "blocks": {
+                        "navigation_B6gLrh": {
+                            "type": "navigation",
+                            "name": "Navigation Menu",
+                            "settings": {
+                                "menu": "main-menu",
+                                "text_color": "#FF0000",
+                                "link_hover": "#C330F9",
+                                "active_color": "#0033FF",
+                                "font_size": 15
+                            },
+                            "blocks": {}
+                        }
+                    },
+                    "block_order": [
+                        "navigation_B6gLrh"
+                    ]
+                }
+            },
+            "block_order": [
+                "column_hxwW3j",
+                "column_wbJk7H"
+            ],
+            "settings": {
+                "bg_color": "",
+                "padding": "10px",
+                "column_count": "2"
+            }
+        }
+    },
+    "order": [
+        "header"
+    ]
+}

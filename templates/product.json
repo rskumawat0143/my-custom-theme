@@ -1,0 +1,102 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+    "sections": {
+        "section_pCqp4e": {
+            "type": "section",
+            "blocks": {
+                "column_pGcrWk": {
+                    "type": "column",
+                    "name": "Column",
+                    "settings": {},
+                    "blocks": {
+                        "product_image_slider_XcU8ga": {
+                            "type": "product_image_slider",
+                            "name": "Product Image Slider",
+                            "settings": {},
+                            "blocks": {}
+                        }
+                    },
+                    "block_order": [
+                        "product_image_slider_XcU8ga"
+                    ]
+                },
+                "column_Ew4egV": {
+                    "type": "column",
+                    "name": "Column",
+                    "settings": {},
+                    "blocks": {
+                        "product_title_3KaJek": {
+                            "type": "product_title",
+                            "name": "Product Title",
+                            "settings": {
+                                "tags": "h1",
+                                "font_size": 24,
+                                "text_color": "#000000",
+                                "alignment": "left"
+                            },
+                            "blocks": {}
+                        },
+                        "product_description_YMtbiq": {
+                            "type": "product_description",
+                            "name": "Product Description",
+                            "settings": {
+                                "text_color": "#000",
+                                "font_size": 16
+                            },
+                            "blocks": {}
+                        },
+                        "product_price_jwAB9m": {
+                            "type": "product_price",
+                            "name": "Product Price",
+                            "settings": {},
+                            "blocks": {}
+                        },
+                        "add_to_card_button_eqkqFi": {
+                            "type": "add_to_card_button",
+                            "name": "Add To Card Button",
+                            "settings": {
+                                "text": "Add To Card",
+                                "text_color": "#ffffff",
+                                "background_color": "#000",
+                                "font_size": 14
+                            },
+                            "blocks": {}
+                        }
+                    },
+                    "block_order": [
+                        "product_title_3KaJek",
+                        "product_description_YMtbiq",
+                        "product_price_jwAB9m",
+                        "add_to_card_button_eqkqFi"
+                    ]
+                }
+            },
+            "block_order": [
+                "column_pGcrWk",
+                "column_Ew4egV"
+            ],
+            "name": "Section",
+            "settings": {
+                "tags": "section",
+                "column": "2",
+                "width": "full",
+                "custom_width": 1200,
+                "custom_width_unit": "px",
+                "background_color": "#ffffff",
+                "min_height": 0,
+                "padding": "0px"
+            }
+        }
+    },
+    "order": [
+        "section_pCqp4e"
+    ]
+}

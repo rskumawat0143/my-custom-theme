@@ -1,0 +1,30 @@
+[
+    {
+        "name": "theme_info",
+        "theme_name": "my-theme",
+        "theme_version": "1.0.0",
+        "theme_author": "RS Bloggers",
+        "theme_documentation_url": "https://rsbloggers.in",
+        "theme_support_url": "https://rsbloggers.in"
+    },
+    {
+        "name": "Store Setting",
+        "settings": [
+            {
+                "type": "image_picker",
+                "id": "logo",
+                "label": "Logo"
+            }
+        ]
+    },
+    {
+        "name": "Main Menu",
+        "settings": [
+            {
+                "type": "link_list",
+                "id": "main_menu",
+                "label": "Main Menu"
+            }
+        ]
+    }
+]

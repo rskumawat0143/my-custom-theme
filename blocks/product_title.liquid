@@ -1,0 +1,103 @@
+<{{ block.settings.tags }}
+  {{ block.shopify_attributes }}
+  style="
+    font-size: {{ block.settings.font_size }}px;
+    color: {{ block.settings.text_color }};
+    text-align: {{ block.settings.alignment }};
+  "
+>
+  {{ product.title | default: "Product Title" }}
+</{{ block.settings.tags }}>
+
+{% schema %}
+{
+    "name": "Product Title",
+    "settings": [
+        {
+            "type": "select",
+            "id":"tags",
+            "label":"Tags",
+            "options":[
+                {
+                    "value":"h1",
+                    "label":"H1"
+                },
+                {
+                    "value":"h2",
+                    "label":"H2"
+                },
+                {
+                    "value":"h3",
+                    "label":"H3"
+                },
+                {
+                    "value":"h4",
+                    "label":"H4"
+                },
+                {
+                    "value":"h5",
+                    "label":"H5"
+                },
+                {
+                    "value":"h6",
+                    "label":"H6"
+                },
+                {
+                    "value":"p",
+                    "label":"Paragraph"
+                },
+                {
+                    "value":"span",
+                    "label":"Span"
+                }
+            ],
+            "default":"h1"
+        },
+        {
+            "type":"header",
+            "content":"Typography"
+        },
+        {
+            "type":"range",
+            "id":"font_size",
+            "label":"Font Size",
+            "default":24,
+            "min":10,
+            "max":100,
+            "step":1,
+            "unit":"px"
+        },
+        {
+            "type":"color",
+            "id":"text_color",
+            "label":"Text Color",
+            "default":"#000000"
+        },
+        {
+            "type":"select",
+            "id":"alignment",
+            "label":"Alignment",
+            "options":[
+                {
+                    "value":"left",
+                    "label":"Left"
+                },
+                {
+                    "value":"center",
+                    "label":"Center"
+                },
+                {
+                    "value":"right",
+                    "label":"Right"
+                }
+            ],
+            "default":"left"
+        }
+    ],
+    "presets": [
+        {
+            "name": "Product Title"
+        }
+    ]
+}
+{% endschema %}

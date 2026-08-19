@@ -1,0 +1,43 @@
+<div class="column-block-{{ block.id }} column-block">
+    {% for block in block.blocks %}
+        {% render block %}
+    {% endfor %}
+</div>  
+
+{% style %}
+  #shopify-block-{{ block.id }} {
+    flex: 0 0 {{ block.settings.width | default: 100 }}%;
+    max-width: {{ block.settings.width | default: 100 }}%;
+    box-sizing: border-box;
+    width:100%;
+    padding: 0 10px;
+  }
+  @media screen and (max-width: 749px) {
+    #shopify-block-{{ block.id }} {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+    "name": "Column",
+    "settings": [
+        {
+            "type": "number",
+            "id": "width",
+            "label": "Width (%)",
+            "default": 100
+        }
+    ],
+    "blocks": [
+        {
+            "type": "@theme"
+        }
+    ],
+    "presets": [
+        {"name": "Column"}
+    ]
+}
+{% endschema %}

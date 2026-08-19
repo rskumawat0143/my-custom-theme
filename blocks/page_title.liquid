@@ -1,0 +1,47 @@
+<h1 style="color: {{ block.settings.text_color }}; font-size: {{ block.settings.font_size }}px; text-align: {{ block.settings.alignment }};">{{ page.title | default: 'Page Title' }}</h1>
+
+
+{% schema %}
+  {
+    "name": "Page Title",
+    "settings": [
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text Color",
+        "default": "#000000"
+      }, {
+        "type": "range",
+        "id": "font_size",
+        "label": "Font Size",
+        "default": 50,
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "unit": "px"
+      }, {
+        "type": "select",
+        "id": "alignment",
+        "label": "Alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          }, {
+            "value": "center",
+            "label": "Center"
+          }, {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "left"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Page Title"
+      }
+    ]
+  }
+{% endschema %}

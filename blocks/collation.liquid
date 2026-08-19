@@ -1,0 +1,81 @@
+{% assign products = block.settings.collection.products %}
+{% if products != blank %}
+  <div
+    class="collation-blocks"
+    {{ block.shopify_attributes }}
+    style=""
+    id="{{block.id}}">
+    {% for product in products limit: block.settings.products_per_page %}
+      <div
+        class="product-blocks"
+        {{ block.shopify_attributes }}
+        id="{{block.id}}">
+        <a href="{{ product.url }}">
+          <img
+            style="width:{{block.settings.image_width}}px; height: auto;"
+            src="{{ product.featured_image | image_url: width: 1024 }}"
+            alt="{{ product.title }}">
+        </a>
+        <a href="{{ product.url }}">
+          <h3>{{ product.title }}</h3>
+        </a>
+        <p>{{ product.price | money }}</p>
+        <a href="{{ product.url }}">
+          View Product
+        </a>
+        {% form 'product', product %}
+          <input
+            type="hidden"
+            name="id"
+            value="{{ product.selected_or_first_available_variant.id }}">
+          <input type="submit" value="Add to Cart">
+        {% endform %}
+      </div>
+    {% endfor %}
+  </div>
+  {% style %}
+    .collation-blocks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+  {% endstyle %}
+
+{% else %}
+  <p>No products found in this collection.</p>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Collation",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection"
+      }, {
+        "type": "range",
+        "id": "products_per_page",
+        "label": "Products per page",
+        "default": 10,
+        "min": 1,
+        "max": 20,
+        "step": 1
+      }, {
+        "type": "number",
+        "id": "image_width",
+        "label": "Image Width",
+        "default": 100,
+        "info": "Width in px"
+      }
+
+    ],
+    "presets": [
+      {
+        "name": "Collation"
+      }
+    ]
+  }
+{% endschema %}

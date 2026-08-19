@@ -1,0 +1,71 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "section_P3U6UH": {
+      "type": "section",
+      "blocks": {
+        "column_GnibBh": {
+          "type": "column",
+          "name": "Column",
+          "settings": {
+            "width": 100
+          },
+          "blocks": {
+            "heading_hCrXyG": {
+              "type": "heading",
+              "name": "Heading",
+              "settings": {
+                "heading": "Contact Us",
+                "Tags": "h1",
+                "link": "",
+                "font_size": 50,
+                "alignment": "center",
+                "text_color": "#ffffff"
+              },
+              "blocks": {}
+            },
+            "collation_atpBVV": {
+              "type": "collation",
+              "name": "Collation",
+              "settings": {
+                "collection": "automated-collection",
+                "products_per_page": 8,
+                "image_width": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "heading_hCrXyG",
+            "collation_atpBVV"
+          ]
+        }
+      },
+      "block_order": [
+        "column_GnibBh"
+      ],
+      "name": "Section",
+      "settings": {
+        "tags": "section",
+        "column": "1",
+        "width": "boxed",
+        "custom_width": 1200,
+        "custom_width_unit": "px",
+        "background_color": "#c330f9",
+        "min_height": 0,
+        "padding": "50px 0"
+      }
+    }
+  },
+  "order": [
+    "section_P3U6UH"
+  ]
+}

@@ -1,0 +1,23 @@
+<div class="product-price" {{block.shopify_attributes}} id="{{block.id}}">
+    {{ product.price | money_with_currency }}
+</div>
+{% style %}
+    .product-price{
+        font-size:20px;
+        color:#ff0000;
+    }
+{% endstyle %}
+
+{% schema %}
+{
+    "name": "Product Price",
+    "settings": [
+        
+    ],
+    "presets": [
+        {
+            "name": "Product Price"
+        }
+        ]
+}
+{% endschema %}

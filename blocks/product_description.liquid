@@ -1,0 +1,35 @@
+<div class="product-description" {{block.shopify_attributes}} id="{{block.id}}">
+    <p>{{ product.description }}</p>
+</div>
+
+
+{% style %}
+    .product-description{
+        font-size:{{block.settings.font_size}}px;
+        color:{{block.settings.text_color}};
+    }
+{% endstyle %}
+
+{% schema %}
+{
+    "name": "Product Description",
+    "settings": [
+        {
+            "type":"color",
+            "id":"text_color",
+            "label":"Color",
+            "default":"#000"
+        },{
+            "type": "number",
+            "id": "font_size",
+            "label": "Font Size",
+            "default": 16,
+        },
+        ],
+        "presets": [
+            {
+                "name": "Product Description"
+            }
+        ]
+}
+{% endschema %}

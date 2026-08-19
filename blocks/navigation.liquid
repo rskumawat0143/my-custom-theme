@@ -1,0 +1,126 @@
+{% assign selected_menu = block.settings.menu %}
+{% if selected_menu != blank %}
+  <ul class="block-navigation-{{ block.id }} block-navigation">
+    {% for link in linklists[selected_menu].links %}
+      <li class="{% if link.links.size > 0 %}has-dropdown{% endif %}">
+        <a href="{{ link.url }}" class="{% if link.active %}active{% endif %}">{{ link.title }}</a>
+        {% if link.links.size > 0 %}
+          <ul class="block-submenu">
+            {% for child_link in link.links %}
+              <li>
+                <a href="{{ child_link.url }}" class="{% if child_link.active %}active{% endif %}">{{ child_link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% style %}
+  .block-navigation-{{ block.id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+  .block-navigation-{{ block.id }}
+  li {
+    position: relative;
+  }
+  .block-navigation-{{ block.id }}
+  a {
+    color: {{ block.settings.text_color | default: '#000000' }};
+    font-size: {{ block.settings.font_size | default: 15 }}px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    display: block;
+    padding: 10px 0;
+  }
+  .block-navigation-{{ block.id }}a:hover {
+    color: {{ block.settings.link_hover | default: '#000000' }};
+  }
+  .block-navigation-{{ block.id }}
+  a.active {
+    color: {{ block.settings.active_color | default: '#000000' }};
+    font-weight: 700;
+  }
+
+  /* Submenu dropdown */
+  .block-navigation-{{ block.id }} .block-submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.2s ease;
+    z-index: 100;
+  }
+  .block-navigation-{{ block.id }}li:hover > .block-submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .block-navigation-{{ block.id }}
+  .block-submenu a {
+    padding: 8px 15px;
+    font-size: calc({{ block.settings.font_size | default: 15 }}px - 2px);
+  }
+{% endstyle %}
+
+{% schema %}
+  {
+    "name": "Navigation Menu",
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Select Menu"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text Color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "link_hover",
+        "label": "Link Hover",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "active_color",
+        "label": "Active Color",
+        "default": "#000000"
+      }, {
+        "type": "range",
+        "id": "font_size",
+        "label": "Font Size",
+        "default": 15,
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "unit": "px"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Navigation Menu"
+      }
+    ]
+  }
+{% endschema %}
