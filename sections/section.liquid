@@ -11,7 +11,7 @@
       width: {{ section.settings.custom_width }}{{ section.settings.custom_width_unit }};margin:0 auto
     {% endif %}
   ">
-  <div style="display: flex; flex-wrap: wrap; width: 100%;">
+  <div style="display: flex; flex-wrap: wrap; width: 100%; justify-content: {{ section.settings.alignment }};">
     {% for block in section.blocks %}
       {% render block %}
     {% endfor %}
@@ -97,6 +97,35 @@
       ],
       "visible_if": "{{ section.settings.width == 'boxed' }}"
     },
+    {
+      "type": "select",
+      "id":"alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "space-between",
+          "label": "Space Between"
+        },
+        {
+          "value": "space-around",
+          "label": "Space Around"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value":"flex-start",
+          "label":"Flex Start"
+        },
+        {
+          "value":"flex-end",
+          "label":"Flex End"
+        }
+      ],
+      "default": "space-between"
+    },
+
     {
       "type": "color",
       "id": "background_color",

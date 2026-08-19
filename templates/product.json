@@ -15,7 +15,9 @@
                 "column_pGcrWk": {
                     "type": "column",
                     "name": "Column",
-                    "settings": {},
+                    "settings": {
+                        "width": 40
+                    },
                     "blocks": {
                         "product_image_slider_XcU8ga": {
                             "type": "product_image_slider",
@@ -31,7 +33,9 @@
                 "column_Ew4egV": {
                     "type": "column",
                     "name": "Column",
-                    "settings": {},
+                    "settings": {
+                        "width": 50
+                    },
                     "blocks": {
                         "product_title_3KaJek": {
                             "type": "product_title",
@@ -87,9 +91,73 @@
             "settings": {
                 "tags": "section",
                 "column": "2",
-                "width": "full",
+                "width": "boxed",
                 "custom_width": 1200,
                 "custom_width_unit": "px",
+                "alignment": "space-between",
+                "background_color": "#ffffff",
+                "min_height": 0,
+                "padding": "0px"
+            }
+        },
+        "section_WmTm38": {
+            "type": "section",
+            "blocks": {
+                "column_M7mGiw": {
+                    "type": "column",
+                    "name": "Column",
+                    "settings": {
+                        "width": 100
+                    },
+                    "blocks": {
+                        "product_list_AJN9wG": {
+                            "type": "product_list",
+                            "name": "Product List",
+                            "settings": {
+                                "collection": "hydrogen",
+                                "products_limit": 4,
+                                "columns_desktop": 3,
+                                "enable_pagination": false,
+                                "card_bg_color": "#938f8f",
+                                "text_color": "#000000",
+                                "price_color": "#ff0000",
+                                "hover_zoom": true
+                            },
+                            "blocks": {}
+                        },
+                        "product_list_cKxDJF": {
+                            "type": "product_list",
+                            "name": "Product List",
+                            "settings": {
+                                "collection": "",
+                                "products_limit": 3,
+                                "columns_desktop": 3,
+                                "enable_pagination": true,
+                                "card_bg_color": "#ffffff",
+                                "text_color": "#333333",
+                                "price_color": "#000000",
+                                "hover_zoom": true
+                            },
+                            "blocks": {}
+                        }
+                    },
+                    "block_order": [
+                        "product_list_AJN9wG",
+                        "product_list_cKxDJF"
+                    ]
+                }
+            },
+            "block_order": [
+                "column_M7mGiw"
+            ],
+            "name": "Section",
+            "settings": {
+                "tags": "section",
+                "column": "1",
+                "width": "boxed",
+                "custom_width": 1200,
+                "custom_width_unit": "px",
+                "alignment": "space-between",
                 "background_color": "#ffffff",
                 "min_height": 0,
                 "padding": "0px"
@@ -97,6 +165,7 @@
         }
     },
     "order": [
-        "section_pCqp4e"
+        "section_pCqp4e",
+        "section_WmTm38"
     ]
 }

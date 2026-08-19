@@ -1,0 +1,392 @@
+{% assign selected_collection = block.settings.collection %}
+{% assign limit = block.settings.products_limit | default: 4 %}
+{% assign enable_pagination = block.settings.enable_pagination %}
+
+{% if selected_collection != blank %}
+  {% assign collection_obj = collections[selected_collection] %}
+{% else %}
+  {% assign collection_obj = collections.all %}
+{% endif %}
+
+{% if collection_obj.products != blank %}
+  <div class="product-list-container-{{ block.id }} product-list-wrapper">
+    {% if enable_pagination %}
+      {% paginate collection_obj.products by limit %}
+        <div class="product-grid">
+          {% for product in collection_obj.products %}
+            <div class="product-card">
+              <div class="product-card-image-wrapper">
+                <a href="{{ product.url }}">
+                  <img
+                    src="{{ product.featured_image | image_url: width: 600 }}"
+                    alt="{{ product.title | escape }}"
+                    loading="lazy"
+                    width="300"
+                    height="300"
+                    class="product-card-image"
+                  >
+                </a>
+                
+                {% if product.available == false %}
+                  <span class="product-badge out-of-stock">Sold Out</span>
+                {% elsif product.compare_at_price > product.price %}
+                  <span class="product-badge sale">Sale</span>
+                {% endif %}
+              </div>
+              
+              <div class="product-card-info">
+                <h3 class="product-card-title">
+                  <a href="{{ product.url }}">{{ product.title }}</a>
+                </h3>
+                
+                <div class="product-card-price">
+                  <span class="price-regular">{{ product.price | money }}</span>
+                  {% if product.compare_at_price > product.price %}
+                    <span class="price-compare">{{ product.compare_at_price | money }}</span>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="product-card-actions">
+                {% form 'product', product %}
+                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                  {% if product.available %}
+                    <button type="submit" class="btn-add-to-cart">
+                      <span>Add to Cart</span>
+                    </button>
+                  {% else %}
+                    <button type="button" class="btn-add-to-cart disabled" disabled>
+                      <span>Out of Stock</span>
+                    </button>
+                  {% endif %}
+                {% endform %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        
+        {% if paginate.pages > 1 %}
+          <div class="product-list-pagination">
+            {{ paginate | default_pagination }}
+          </div>
+        {% endif %}
+      {% endpaginate %}
+    {% else %}
+      <div class="product-grid">
+        {% for product in collection_obj.products limit: limit %}
+          <div class="product-card">
+            <div class="product-card-image-wrapper">
+              <a href="{{ product.url }}">
+                <img
+                  src="{{ product.featured_image | image_url: width: 600 }}"
+                  alt="{{ product.title | escape }}"
+                  loading="lazy"
+                  width="300"
+                  height="300"
+                  class="product-card-image"
+                >
+              </a>
+              
+              {% if product.available == false %}
+                <span class="product-badge out-of-stock">Sold Out</span>
+              {% elsif product.compare_at_price > product.price %}
+                <span class="product-badge sale">Sale</span>
+              {% endif %}
+            </div>
+            
+            <div class="product-card-info">
+              <h3 class="product-card-title">
+                <a href="{{ product.url }}">{{ product.title }}</a>
+              </h3>
+              
+              <div class="product-card-price">
+                <span class="price-regular">{{ product.price | money }}</span>
+                {% if product.compare_at_price > product.price %}
+                  <span class="price-compare">{{ product.compare_at_price | money }}</span>
+                {% endif %}
+              </div>
+            </div>
+            
+            <div class="product-card-actions">
+              {% form 'product', product %}
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                {% if product.available %}
+                  <button type="submit" class="btn-add-to-cart">
+                    <span>Add to Cart</span>
+                  </button>
+                {% else %}
+                  <button type="button" class="btn-add-to-cart disabled" disabled>
+                    <span>Out of Stock</span>
+                  </button>
+                {% endif %}
+              {% endform %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% else %}
+  <div class="product-list-placeholder">
+    <p>Please select a collection to display products.</p>
+  </div>
+{% endif %}
+
+{% style %}
+  .product-list-container-{{ block.id }} {
+    width: 100%;
+    margin: 20px auto;
+  }
+  
+  .product-list-container-{{ block.id }} .product-grid {
+    display: grid;
+    grid-template-columns: repeat({{ block.settings.columns_desktop | default: 4 }}, 1fr);
+    gap: 24px;
+  }
+  
+  .product-list-container-{{ block.id }} .product-card {
+    background: {{ block.settings.card_bg_color | default: '#ffffff' }};
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .product-list-container-{{ block.id }} .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-list-container-{{ block.id }} .product-card-image-wrapper {
+    position: relative;
+    padding-bottom: 100%;
+    overflow: hidden;
+    background: #f5f5f5;
+  }
+  
+  .product-list-container-{{ block.id }} .product-card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  {% if block.settings.hover_zoom == true %}
+    .product-list-container-{{ block.id }} .product-card:hover .product-card-image {
+      transform: scale(1.08);
+    }
+  {% endif %}
+  
+  .product-list-container-{{ block.id }} .product-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 4px;
+    z-index: 2;
+  }
+  
+  .product-list-container-{{ block.id }} .product-badge.sale {
+    background: #e60023;
+    color: #ffffff;
+  }
+  
+  .product-list-container-{{ block.id }} .product-badge.out-of-stock {
+    background: #999999;
+    color: #ffffff;
+  }
+  
+  .product-list-container-{{ block.id }} .product-card-info {
+    padding: 16px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .product-list-container-{{ block.id }} .product-card-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  
+  .product-list-container-{{ block.id }} .product-card-title a {
+    text-decoration: none;
+    color: {{ block.settings.text_color | default: '#333333' }};
+    transition: opacity 0.2s;
+  }
+  
+  .product-list-container-{{ block.id }} .product-card-title a:hover {
+    opacity: 0.8;
+  }
+  
+  .product-list-container-{{ block.id }} .product-card-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: {{ block.settings.price_color | default: '#000000' }};
+  }
+  
+  .product-list-container-{{ block.id }} .price-compare {
+    text-decoration: line-through;
+    color: #888888;
+    font-size: 13px;
+    font-weight: 400;
+  }
+  
+  .product-list-container-{{ block.id }} .product-card-actions {
+    padding: 0 16px 16px 16px;
+  }
+  
+  .product-list-container-{{ block.id }} .btn-add-to-cart {
+    width: 100%;
+    padding: 12px;
+    border: 0;
+    background: #000000;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .product-list-container-{{ block.id }} .btn-add-to-cart:hover {
+    background: #333333;
+  }
+  
+  .product-list-container-{{ block.id }} .btn-add-to-cart.disabled {
+    background: #e5e5e5;
+    color: #999999;
+    cursor: not-allowed;
+  }
+  
+  /* Pagination styling */
+  .product-list-container-{{ block.id }} .product-list-pagination {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    align-items: center;
+    font-size: 15px;
+  }
+  .product-list-container-{{ block.id }} .product-list-pagination a,
+  .product-list-container-{{ block.id }} .product-list-pagination span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: {{ block.settings.text_color | default: '#333333' }};
+    border: 1px solid #e5e5e5;
+    transition: all 0.2s;
+  }
+  .product-list-container-{{ block.id }} .product-list-pagination a:hover {
+    border-color: {{ block.settings.price_color | default: '#000000' }};
+    background: #f9f9f9;
+  }
+  .product-list-container-{{ block.id }} .product-list-pagination .current {
+    background: {{ block.settings.price_color | default: '#000000' }};
+    color: #ffffff;
+    border-color: {{ block.settings.price_color | default: '#000000' }};
+    font-weight: 700;
+  }
+
+  @media screen and (max-width: 989px) {
+    .product-list-container-{{ block.id }} .product-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+  }
+  
+  @media screen and (max-width: 749px) {
+    .product-list-container-{{ block.id }} .product-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .product-list-container-{{ block.id }} .product-card-title {
+      font-size: 14px;
+    }
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Product List",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "label": "Products to Show / per Page",
+      "min": 2,
+      "max": 24,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns on Desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_pagination",
+      "label": "Enable Pagination",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price Color",
+      "default": "#000000"
+    },
+    {
+      "type": "checkbox",
+      "id": "hover_zoom",
+      "label": "Enable Image Zoom on Hover",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product List"
+    }
+  ]
+}
+{% endschema %}
